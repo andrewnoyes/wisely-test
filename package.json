@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start:all": "concurrently -k \"yarn start:sdk\" \"yarn start:api\" \"yarn start:app\"",
+    "start:all": "concurrently -k  \"yarn start:sdk\" \"yarn start:api\" \"yarn start:app\"",
     "start:api": "cd packages/api && yarn start:dev",
     "start:app": "cd packages/app && yarn start",
     "start:sdk": "cd packages/sdk && yarn watch",

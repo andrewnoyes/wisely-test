@@ -100,89 +100,6 @@ export const Inventory: coreHttp.CompositeMapper = {
   }
 };
 
-export const Restaurant: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Restaurant",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      created: {
-        serializedName: "created",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      updated: {
-        serializedName: "updated",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CreateRestaurantDto: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreateRestaurantDto",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CreateReservationDto: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreateReservationDto",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      email: {
-        serializedName: "email",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      partySize: {
-        serializedName: "partySize",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const Reservation: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -242,6 +159,89 @@ export const Reservation: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Inventory"
+        }
+      }
+    }
+  }
+};
+
+export const CreateReservationDto: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateReservationDto",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      email: {
+        serializedName: "email",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partySize: {
+        serializedName: "partySize",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Restaurant: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Restaurant",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      created: {
+        serializedName: "created",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      updated: {
+        serializedName: "updated",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CreateRestaurantDto: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateRestaurantDto",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }

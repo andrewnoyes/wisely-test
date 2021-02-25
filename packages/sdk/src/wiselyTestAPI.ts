@@ -6,12 +6,14 @@ import {
   WiselyTestAPIOptionalParams,
   CreateInventoryDto,
   WiselyTestAPICreateInventoryResponse,
+  WiselyTestAPIGetInventoryByDateResponse,
+  WiselyTestAPIGetReservationsResponse,
+  CreateReservationDto,
+  WiselyTestAPICreateReservationResponse,
   WiselyTestAPIGetRestaurantsResponse,
   CreateRestaurantDto,
   WiselyTestAPICreateRestaurantResponse,
-  WiselyTestAPIGetRestaurantByIdResponse,
-  CreateReservationDto,
-  WiselyTestAPICreateReservationResponse
+  WiselyTestAPIGetRestaurantByIdResponse
 } from "./models";
 
 export class WiselyTestAPI extends WiselyTestAPIContext {
@@ -41,6 +43,63 @@ export class WiselyTestAPI extends WiselyTestAPIContext {
       { restaurantId, body, options: operationOptions },
       createInventoryOperationSpec
     ) as Promise<WiselyTestAPICreateInventoryResponse>;
+  }
+
+  /**
+   * @param restaurantId
+   * @param dateParam
+   * @param options The options parameters.
+   */
+  getInventoryByDate(
+    restaurantId: number,
+    dateParam: Date,
+    options?: coreHttp.OperationOptions
+  ): Promise<WiselyTestAPIGetInventoryByDateResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { restaurantId, dateParam, options: operationOptions },
+      getInventoryByDateOperationSpec
+    ) as Promise<WiselyTestAPIGetInventoryByDateResponse>;
+  }
+
+  /**
+   * Get list of reservations
+   * @param restaurantId
+   * @param options The options parameters.
+   */
+  getReservations(
+    restaurantId: number,
+    options?: coreHttp.OperationOptions
+  ): Promise<WiselyTestAPIGetReservationsResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { restaurantId, options: operationOptions },
+      getReservationsOperationSpec
+    ) as Promise<WiselyTestAPIGetReservationsResponse>;
+  }
+
+  /**
+   * Create a reservation
+   * @param restaurantId
+   * @param body
+   * @param options The options parameters.
+   */
+  createReservation(
+    restaurantId: number,
+    body: CreateReservationDto,
+    options?: coreHttp.OperationOptions
+  ): Promise<WiselyTestAPICreateReservationResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { restaurantId, body, options: operationOptions },
+      createReservationOperationSpec
+    ) as Promise<WiselyTestAPICreateReservationResponse>;
   }
 
   /**
@@ -94,26 +153,6 @@ export class WiselyTestAPI extends WiselyTestAPIContext {
       getRestaurantByIdOperationSpec
     ) as Promise<WiselyTestAPIGetRestaurantByIdResponse>;
   }
-
-  /**
-   * Create a reservation
-   * @param inventoryId
-   * @param body
-   * @param options The options parameters.
-   */
-  createReservation(
-    inventoryId: number,
-    body: CreateReservationDto,
-    options?: coreHttp.OperationOptions
-  ): Promise<WiselyTestAPICreateReservationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { inventoryId, body, options: operationOptions },
-      createReservationOperationSpec
-    ) as Promise<WiselyTestAPICreateReservationResponse>;
-  }
 }
 // Operation Specifications
 
@@ -133,6 +172,55 @@ const createInventoryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
+  urlParameters: [Parameters.$host, Parameters.restaurantId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const getInventoryByDateOperationSpec: coreHttp.OperationSpec = {
+  path: "/api/restaurants/{restaurantId}/inventories",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "Inventory" } }
+        }
+      }
+    }
+  },
+  queryParameters: [Parameters.dateParam],
+  urlParameters: [Parameters.$host, Parameters.restaurantId],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const getReservationsOperationSpec: coreHttp.OperationSpec = {
+  path: "/api/restaurants/{restaurantId}/reservations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "Reservation" } }
+        }
+      }
+    }
+  },
+  urlParameters: [Parameters.$host, Parameters.restaurantId],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const createReservationOperationSpec: coreHttp.OperationSpec = {
+  path: "/api/restaurants/{restaurantId}/reservations",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Reservation
+    }
+  },
+  requestBody: Parameters.body1,
   urlParameters: [Parameters.$host, Parameters.restaurantId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -163,7 +251,7 @@ const createRestaurantOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.Restaurant
     }
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -179,19 +267,5 @@ const getRestaurantByIdOperationSpec: coreHttp.OperationSpec = {
   },
   urlParameters: [Parameters.$host, Parameters.restaurantId],
   headerParameters: [Parameters.accept1],
-  serializer
-};
-const createReservationOperationSpec: coreHttp.OperationSpec = {
-  path: "/api/inventories/{inventoryId}/reservations",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Reservation
-    }
-  },
-  requestBody: Parameters.body2,
-  urlParameters: [Parameters.$host, Parameters.inventoryId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
   serializer
 };

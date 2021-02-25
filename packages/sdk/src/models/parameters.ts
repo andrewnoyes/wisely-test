@@ -1,8 +1,12 @@
-import { OperationParameter, OperationURLParameter } from "@azure/core-http";
+import {
+  OperationParameter,
+  OperationURLParameter,
+  OperationQueryParameter
+} from "@azure/core-http";
 import {
   CreateInventoryDto as CreateInventoryDtoMapper,
-  CreateRestaurantDto as CreateRestaurantDtoMapper,
-  CreateReservationDto as CreateReservationDtoMapper
+  CreateReservationDto as CreateReservationDtoMapper,
+  CreateRestaurantDto as CreateRestaurantDtoMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -69,23 +73,23 @@ export const accept1: OperationParameter = {
   }
 };
 
-export const body1: OperationParameter = {
-  parameterPath: "body",
-  mapper: CreateRestaurantDtoMapper
+export const dateParam: OperationQueryParameter = {
+  parameterPath: "dateParam",
+  mapper: {
+    serializedName: "date",
+    required: true,
+    type: {
+      name: "DateTime"
+    }
+  }
 };
 
-export const body2: OperationParameter = {
+export const body1: OperationParameter = {
   parameterPath: "body",
   mapper: CreateReservationDtoMapper
 };
 
-export const inventoryId: OperationURLParameter = {
-  parameterPath: "inventoryId",
-  mapper: {
-    serializedName: "inventoryId",
-    required: true,
-    type: {
-      name: "Number"
-    }
-  }
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: CreateRestaurantDtoMapper
 };

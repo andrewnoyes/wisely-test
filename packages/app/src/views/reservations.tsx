@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import { Reservation } from 'sdk/dist';
-import { reservationStore } from '../stores';
 import {
     ReservationForm,
     ReservationTable,

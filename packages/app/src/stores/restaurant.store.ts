@@ -2,7 +2,6 @@ import { action, computed, observable } from 'mobx';
 
 import { Restaurant } from 'sdk/dist';
 import { apiClient } from './api-client';
-
 export class RestaurantStore {
     @observable
     public selectedRestaurant: Restaurant | null = null;
@@ -60,7 +59,7 @@ export class RestaurantStore {
 
     @action
     private addRestaurant = (restaurant: Restaurant): void => {
-        this.restaurants = [...this.restaurants, restaurant];
+        this.restaurants.push(restaurant);
     };
 
     @action

@@ -26,22 +26,22 @@ export const theme = createMuiTheme({
     overrides: {
         MuiButton: {
             root: {
-                borderRadius: '4px',
+                borderRadius: '2px',
             },
         },
         MuiPaper: {
             rounded: {
-                borderRadius: '4px',
+                borderRadius: '2px',
             },
         },
         MuiInputBase: {
             root: {
-                borderRadius: '4px',
+                borderRadius: '2px',
             },
         },
         MuiOutlinedInput: {
             root: {
-                borderRadius: '4px',
+                borderRadius: '2px',
             },
         },
     },

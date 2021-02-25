@@ -17,23 +17,6 @@ export interface Inventory {
   restaurantId: number;
 }
 
-export interface Restaurant {
-  id: number;
-  created: Date;
-  updated: Date;
-  name: string;
-}
-
-export interface CreateRestaurantDto {
-  name: string;
-}
-
-export interface CreateReservationDto {
-  name: string;
-  email: string;
-  partySize: number;
-}
-
 export interface Reservation {
   id: number;
   created: Date;
@@ -43,6 +26,23 @@ export interface Reservation {
   partySize: number;
   inventoryId: number;
   inventory: Inventory;
+}
+
+export interface CreateReservationDto {
+  name: string;
+  email: string;
+  partySize: number;
+}
+
+export interface Restaurant {
+  id: number;
+  created: Date;
+  updated: Date;
+  name: string;
+}
+
+export interface CreateRestaurantDto {
+  name: string;
 }
 
 /**
@@ -62,6 +62,66 @@ export type WiselyTestAPICreateInventoryResponse = Inventory[] & {
      * The response body as parsed JSON or XML
      */
     parsedBody: Inventory[];
+  };
+};
+
+/**
+ * Contains response data for the getInventoryByDate operation.
+ */
+export type WiselyTestAPIGetInventoryByDateResponse = Inventory[] & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Inventory[];
+  };
+};
+
+/**
+ * Contains response data for the getReservations operation.
+ */
+export type WiselyTestAPIGetReservationsResponse = Reservation[] & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Reservation[];
+  };
+};
+
+/**
+ * Contains response data for the createReservation operation.
+ */
+export type WiselyTestAPICreateReservationResponse = Reservation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Reservation;
   };
 };
 
@@ -122,26 +182,6 @@ export type WiselyTestAPIGetRestaurantByIdResponse = Restaurant & {
      * The response body as parsed JSON or XML
      */
     parsedBody: Restaurant;
-  };
-};
-
-/**
- * Contains response data for the createReservation operation.
- */
-export type WiselyTestAPICreateReservationResponse = Reservation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Reservation;
   };
 };
 

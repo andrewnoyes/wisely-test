@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
+import moment from 'moment';
+import { observer } from 'mobx-react';
 
 import { DatePicker } from './date-picker';
 
@@ -23,35 +25,38 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export interface IReservationToolbarProps {
-    onCreate: () => void;
+export interface IInventoryToolbarProps {
+    onSchedule: () => void;
+    date: moment.Moment | null;
+    onDateChange: (date: moment.Moment | null) => void;
+    onGoToToday: () => void;
 }
 
-export const ReservationToolbar: React.FC<IReservationToolbarProps> = (props) => {
+export const InventoryToolbar: React.FC<IInventoryToolbarProps> = observer((props) => {
     const classes = useStyles();
-    const { onCreate } = props;
-
-    const [start, setStart] = React.useState<any>();
+    const { onSchedule, date, onDateChange, onGoToToday } = props;
     const [focused, setFocused] = React.useState(false);
 
     return (
         <div className={classes.root}>
             <div className={classes.row}>
-                <Button variant="outlined">Today</Button>
+                <Button variant="outlined" onClick={onGoToToday}>
+                    Today
+                </Button>
                 <div className={classes.spacer} />
                 <DatePicker
-                    id="reservation_toolbar_datepicker"
-                    date={start}
-                    onDateChange={(d) => setStart(d)}
+                    date={date}
+                    onDateChange={onDateChange}
                     focused={focused}
                     onFocusChange={({ focused }) => setFocused(focused)}
+                    id="inventory_datepicker"
                     small={true}
                     showDefaultInputIcon={true}
                 />
             </div>
-            <Button variant="contained" color="primary" onClick={onCreate}>
-                Create Reservation
+            <Button variant="contained" color="primary" onClick={onSchedule}>
+                Schedule Inventory
             </Button>
         </div>
     );
-};
+});
