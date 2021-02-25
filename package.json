@@ -1,0 +1,24 @@
+{
+  "name": "wisely-test",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start:all": "concurrently -k \"yarn start:sdk\" \"yarn start:api\" \"yarn start:app\"",
+    "start:api": "cd packages/api && yarn start:dev",
+    "start:app": "cd packages/app && yarn start",
+    "start:sdk": "cd packages/sdk && yarn watch",
+    "generate:sdk": "yarn build:sdk && yarn compile:sdk",
+    "build:sdk": "cd packages/api && yarn build:sdk",
+    "compile:sdk": "cd packages/sdk && yarn build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "prettier": "^2.2.1"
+  }
+}

@@ -1,0 +1,6 @@
+input-file: api-swagger-spec.json
+add-credentials: false
+generate-metadata: false
+
+typescript:
+    output-folder: ../sdk
