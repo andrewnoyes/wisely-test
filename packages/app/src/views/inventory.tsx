@@ -2,8 +2,15 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 
-import { inventoryStore, restaurantStore } from '../stores';
-import { InventoryForm, InventoryToolbar, ResponsiveDrawer } from '../components';
+import { inventoryStore } from '../stores';
+import {
+    InventoryForm,
+    InventoryTable,
+    InventoryToolbar,
+    Placeholder,
+    Progress,
+    ResponsiveDrawer,
+} from '../components';
 
 export const Inventory: React.FC = observer(() => {
     const [formOpen, setFormOpen] = React.useState(false);
@@ -18,8 +25,16 @@ export const Inventory: React.FC = observer(() => {
         inventoryStore.setDate(date);
     };
 
-    const handleGoToToday = () => {
-        handleDateChange(moment());
+    const renderContent = () => {
+        if (inventoryStore.loading) {
+            return <Progress />;
+        }
+
+        if (!inventoryStore.selectedDate) {
+            return <Placeholder text="Select a date to view inventory." />;
+        }
+
+        return <InventoryTable inventories={inventoryStore.inventories} />;
     };
 
     return (
@@ -28,9 +43,8 @@ export const Inventory: React.FC = observer(() => {
                 onSchedule={handleToggleOpen}
                 date={inventoryStore.selectedDate}
                 onDateChange={handleDateChange}
-                onGoToToday={handleGoToToday}
             />
-            {inventoryStore.loading ? <h3>loading...</h3> : null}
+            {renderContent()}
             <ResponsiveDrawer
                 title="Schedule Inventory"
                 open={formOpen}

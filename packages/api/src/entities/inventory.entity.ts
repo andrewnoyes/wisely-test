@@ -12,7 +12,7 @@ export class Inventory extends BaseEntity {
     public reservationLimit: number;
 
     @ApiProperty()
-    @Column({ type: 'time' })
+    @Column({ type: 'timestamp' })
     public time: Date;
 
     @ApiProperty()

@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Post, HttpCode, HttpStatus, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { CreateInventoryDto, ListInventoryDto } from '../dtos';
+import { CreateInventoryDto, InventoryQueryDto } from '../dtos';
 import { Inventory } from '../entities';
 import { InventoryService } from '../services';
 
@@ -30,7 +30,7 @@ export class InventoryController {
     @Get()
     public async getInventoryByDate(
         @Param('restaurantId') restaurantId: number,
-        @Query() query: ListInventoryDto
+        @Query() query: InventoryQueryDto
     ): Promise<Inventory[]> {
         return await this._inventoryService.findAllByDate(restaurantId, query.date);
     }

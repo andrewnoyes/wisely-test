@@ -1,27 +1,27 @@
-import { action, observable, reaction } from 'mobx';
+import { reaction, makeAutoObservable } from 'mobx';
 import moment from 'moment';
 
 import { Inventory } from 'sdk/dist';
 import { apiClient } from './api-client';
+import { restaurantStore } from './restaurant.store';
 
 export class InventoryStore {
-    @observable
     public inventories: Inventory[] = [];
 
-    @observable
     public selectedDate: moment.Moment | null = null;
 
-    @observable
     public loading: boolean = false;
 
     public constructor() {
+        makeAutoObservable(this);
+
         reaction(
-            () => this.selectedDate,
-            (date) => {
-                if (date) {
-                    console.log('date changed', date);
+            () => ({ date: this.selectedDate, restaurant: restaurantStore.selectedRestaurant }),
+            ({ date, restaurant }) => {
+                if (date && restaurant) {
+                    this.loadInventories(date.toDate(), restaurant.id);
                 } else {
-                    console.log('date cleared');
+                    this.clearInventories();
                 }
             }
         );
@@ -31,7 +31,6 @@ export class InventoryStore {
         try {
             this.setLoading(true);
             const inventories = await apiClient.getInventoryByDate(restaurantId, date);
-            console.log('inventories!!!', inventories);
             this.setInventories(inventories);
         } catch (error) {
             console.error('Failed to load inventories', error);
@@ -41,28 +40,21 @@ export class InventoryStore {
         }
     };
 
-    @action
     public setDate = (date: moment.Moment | null) => {
-        console.log('date set!', date);
         this.selectedDate = date;
     };
 
-    @action
     private setLoading = (loading: boolean): void => {
         this.loading = loading;
     };
 
-    @action
     private setInventories = (inventories: Inventory[]): void => {
         this.inventories = inventories;
     };
 
-    @action
     private clearInventories = (): void => {
         this.inventories = [];
     };
-
-    // TODO: action for creating inventory
 }
 
 export const inventoryStore = new InventoryStore();

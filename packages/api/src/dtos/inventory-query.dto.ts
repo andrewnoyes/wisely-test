@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ListInventoryDto {
+export class InventoryQueryDto {
     @ApiProperty()
     public date: Date;
 }

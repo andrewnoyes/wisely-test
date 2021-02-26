@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    CircularProgress,
     Link,
     Paper,
     Table,
@@ -10,17 +9,10 @@ import {
     TableBody,
     TableCell,
     Typography,
-    makeStyles,
 } from '@material-ui/core';
 
 import { Reservation } from 'sdk/dist';
-
-const useStyles = makeStyles((theme) => ({
-    loading: {
-        display: 'flex',
-        alignSelf: 'center',
-    },
-}));
+import { Progress } from './progress';
 
 export interface IReservationTableProps {
     reservations: Reservation[];
@@ -28,11 +20,10 @@ export interface IReservationTableProps {
 }
 
 export const ReservationTable: React.FC<IReservationTableProps> = (props) => {
-    const classes = useStyles();
     const { reservations, loading } = props;
 
     if (loading) {
-        return <CircularProgress className={classes.loading} />;
+        return <Progress />;
     }
 
     if (!reservations.length) {

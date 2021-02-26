@@ -54,7 +54,6 @@ export class InventoryService {
         }
 
         // only concerned about the time, so normalizing the date portion
-        // when saved in DB only the time is included, but this is needed for the evaluation in while loop
         const startTime = moment(start).year(1900).month(0).date(1).second(0).millisecond(0);
         const endTime = moment(end).year(1900).month(0).date(1).second(0).millisecond(0);
         const ranges: Date[] = [];

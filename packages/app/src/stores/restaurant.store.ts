@@ -1,17 +1,18 @@
-import { action, computed, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 import { Restaurant } from 'sdk/dist';
 import { apiClient } from './api-client';
 export class RestaurantStore {
-    @observable
     public selectedRestaurant: Restaurant | null = null;
 
-    @observable
     public restaurants: Restaurant[] = [];
 
-    @computed
     public get hasRestaurants(): boolean {
         return this.restaurants.length > 0;
+    }
+
+    public constructor() {
+        makeAutoObservable(this);
     }
 
     public loadRestaurants = async (): Promise<void> => {
@@ -52,22 +53,18 @@ export class RestaurantStore {
 
     //#region Actions
 
-    @action
     private setRestaurants = (restaurants: Restaurant[]): void => {
         this.restaurants = restaurants;
     };
 
-    @action
     private addRestaurant = (restaurant: Restaurant): void => {
         this.restaurants.push(restaurant);
     };
 
-    @action
     private setSelectedRestaurant = (restaurant: Restaurant): void => {
         this.selectedRestaurant = restaurant;
     };
 
-    @action
     private clearSelectedRestaurant = (): void => {
         this.selectedRestaurant = null;
     };
