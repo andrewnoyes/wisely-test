@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  db:
+  postgres:
     image: postgres:12-alpine
     environment:
       - POSTGRES_PASSWORD=local
@@ -14,7 +14,7 @@ services:
       - "9000:9000"
     environment:
       - ADMINER_DEFAULT_DB_DRIVER=pgsql
-      - ADMINER_DEFAULT_DB_HOST=db
+      - ADMINER_DEFAULT_DB_HOST=postgres
       - ADMINER_DEFAULT_DB_NAME=wisely_test
     depends_on:
-      - db
+      - postgres

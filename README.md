@@ -1,11 +1,4 @@
-# Instructions
-TODO:
-- Docker instructions
-- Installation and running dev
-  
-# Overview
-TODO:
-- Frameworks used for front/back end
-- Auto-generated SDK, Open API, Swagger UI -- mention how to access API browser
-- Schema description -- specifically go over decision b/w inventory and reservation
-- Maybe areas for improvement/extensibility
+# Installation and running
+1. From project root, run `docker-compose up` - this will start postgres and adminer client
+2. In separate terminal, also from project root, run `yarn install` to install dependencies
+3. After installation, run `yarn start:all` - this will run the api and web projects
