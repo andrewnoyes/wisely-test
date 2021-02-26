@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import moment from 'moment';
 
 import { Reservation } from 'sdk/dist';
 import { reservationStore } from '../stores';
@@ -20,6 +21,10 @@ export const Reservations: React.FC = observer(() => {
     };
 
     const handleCreateReservation = () => {};
+
+    const handleRequestTimes = async (date: moment.Moment): Promise<string[]> => {
+        return await reservationStore.getAvailableReservationTimes(date);
+    };
 
     const renderContent = () => {
         if (reservationStore.loading) {
@@ -51,7 +56,11 @@ export const Reservations: React.FC = observer(() => {
                 onClose={handleToggleOpen}
                 anchor="right"
             >
-                <ReservationForm onCreate={handleCreateReservation} onCancel={handleToggleOpen} />
+                <ReservationForm
+                    onCreate={handleCreateReservation}
+                    onCancel={handleToggleOpen}
+                    onRequestTimes={handleRequestTimes}
+                />
             </ResponsiveDrawer>
         </>
     );

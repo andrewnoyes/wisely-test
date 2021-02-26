@@ -1,50 +1,40 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
+import moment from 'moment';
 
 import { Input } from './input';
 import { Select } from './select';
 import { FormActions } from './form-actions';
+import { DatePicker } from './date-picker';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
     },
+    spacer: {
+        marginTop: theme.spacing(2),
+    },
 }));
+
+const partySizeOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 export interface IReservationFormProps {
     onCreate: () => void;
     onCancel: () => void;
+    onRequestTimes: (date: moment.Moment) => Promise<string[]>;
 }
 
 export const ReservationForm: React.FC<IReservationFormProps> = (props) => {
-    const { onCreate, onCancel } = props;
+    const { onCreate, onCancel, onRequestTimes } = props;
     const classes = useStyles();
+    const [focused, setFocused] = React.useState(false);
+    const [name, setName] = React.useState<string>('');
+    const [email, setEmail] = React.useState<string>('');
     const [partySize, setPartySize] = React.useState<string>('');
+    const [date, setDate] = React.useState<moment.Moment | null>(null);
+    const [availableTimes, setAvailableTimes] = React.useState<string[]>([]);
     const [time, setTime] = React.useState<string>('');
-
-    // TODO: the requirement doc says that the date selection should be a dropdown
-    const tempPartySizes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-    // TODO: this will tie in with the inventory impl
-    const tempTimes = [
-        '11:00 AM',
-        '11:15 AM',
-        '11:30 AM',
-        '11:45 AM',
-        '12:00 PM',
-        '12:15 PM',
-        '12:30 PM',
-        '12:45 PM',
-        '1:00 PM',
-        '1:15 PM',
-        '1:30 PM',
-        '1:45 PM',
-        '2:00 PM',
-        '2:15 PM',
-        '2:30 PM',
-        '2:45 PM',
-        '3:00 PM',
-    ];
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,21 +42,61 @@ export const ReservationForm: React.FC<IReservationFormProps> = (props) => {
         onCreate();
     };
 
+    const handleDateChange = async (newDate: moment.Moment | null) => {
+        setDate(newDate);
+        if (newDate) {
+            const times = await onRequestTimes(newDate);
+            setAvailableTimes(times);
+        } else {
+            setAvailableTimes([]);
+        }
+    };
+
+    const canSave = (): boolean => {
+        return Boolean(
+            name && email && date && time && partySize && Number.parseInt(partySize) > 0
+        );
+    };
+
     return (
         <form className={classes.root} onSubmit={handleSubmit}>
-            <Input type="text" label="Name" />
-            <Input type="email" label="Email" />
+            <Input
+                type="text"
+                label="Name"
+                required={true}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+                type="email"
+                label="Email"
+                required={true}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
             <Select
                 label="Party size"
                 value={partySize}
-                values={tempPartySizes}
+                values={partySizeOptions}
                 onChange={(e) => setPartySize(e.target.value as string)}
+                required={true}
             />
-            <Input label="Date" type="date" InputLabelProps={{ shrink: true }} />
+            <div className={classes.spacer} />
+            <DatePicker
+                date={date}
+                onDateChange={handleDateChange}
+                focused={focused}
+                onFocusChange={({ focused }) => setFocused(focused)}
+                id="reservation_form_datepicker"
+                required={true}
+                orientation="vertical"
+                block={true}
+            />
+            <div style={{ marginTop: 8 }} />
             <Select
                 label="Time"
                 value={time}
-                values={tempTimes}
+                values={availableTimes}
                 onChange={(e) => setTime(e.target.value as string)}
                 MenuProps={{
                     PaperProps: {
@@ -76,7 +106,7 @@ export const ReservationForm: React.FC<IReservationFormProps> = (props) => {
                     },
                 }}
             />
-            <FormActions confirmText="Create" canSave={true} onCancel={onCancel} />
+            <FormActions confirmText="Create" canSave={canSave()} onCancel={onCancel} />
         </form>
     );
 };

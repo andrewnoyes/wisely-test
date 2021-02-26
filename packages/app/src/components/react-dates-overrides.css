@@ -1,6 +1,7 @@
 .SingleDatePicker_picker {
     z-index: 1300;
 }
+
 .SingleDatePickerInput {
     border-radius: 2px;
     border: 1px solid rgba(0, 0, 0, 0.23);

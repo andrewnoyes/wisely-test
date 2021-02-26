@@ -39,6 +39,37 @@ export class ReservationStore {
         this.selectedDate = date;
     };
 
+    public getAvailableReservationTimes = async (date: moment.Moment): Promise<string[]> => {
+        if (!restaurantStore.selectedRestaurant) {
+            return [];
+        }
+
+        const reservations = await apiClient.getReservationsByDate(
+            restaurantStore.selectedRestaurant.id,
+            date.toDate()
+        );
+
+        const inventories = await apiClient.getInventoryByDate(
+            restaurantStore.selectedRestaurant.id,
+            date.toDate()
+        );
+
+        const times: string[] = [];
+        for (const inventory of inventories) {
+            const existingReservations = reservations.filter((r) => r.inventoryId === inventory.id);
+            if (existingReservations.length < inventory.reservationLimit) {
+                times.push(
+                    new Date(inventory.time).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    })
+                );
+            }
+        }
+
+        return times;
+    };
+
     private loadReservations = async (date: Date, restaurantId: number): Promise<void> => {
         try {
             this.setLoading(true);
