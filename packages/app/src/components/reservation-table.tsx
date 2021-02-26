@@ -8,31 +8,16 @@ import {
     TableRow,
     TableBody,
     TableCell,
-    Typography,
 } from '@material-ui/core';
 
 import { Reservation } from 'sdk/dist';
-import { Progress } from './progress';
 
 export interface IReservationTableProps {
     reservations: Reservation[];
-    loading: boolean;
 }
 
 export const ReservationTable: React.FC<IReservationTableProps> = (props) => {
-    const { reservations, loading } = props;
-
-    if (loading) {
-        return <Progress />;
-    }
-
-    if (!reservations.length) {
-        return (
-            <Typography variant="h5" align="center">
-                No reservations scheduled.
-            </Typography>
-        );
-    }
+    const { reservations } = props;
 
     return (
         <TableContainer component={Paper}>

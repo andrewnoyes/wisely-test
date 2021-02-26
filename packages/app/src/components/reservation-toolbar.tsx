@@ -16,21 +16,21 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IReservationToolbarProps {
     onCreate: () => void;
+    date: moment.Moment | null;
+    onDateChange: (date: moment.Moment | null) => void;
 }
 
 export const ReservationToolbar: React.FC<IReservationToolbarProps> = (props) => {
     const classes = useStyles();
-    const { onCreate } = props;
-
-    const [start, setStart] = React.useState<any>();
+    const { onCreate, date, onDateChange } = props;
     const [focused, setFocused] = React.useState(false);
 
     return (
         <div className={classes.root}>
             <DatePicker
                 id="reservation_toolbar_datepicker"
-                date={start}
-                onDateChange={(d) => setStart(d)}
+                date={date}
+                onDateChange={onDateChange}
                 focused={focused}
                 onFocusChange={({ focused }) => setFocused(focused)}
                 small={true}

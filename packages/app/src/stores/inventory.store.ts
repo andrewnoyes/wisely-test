@@ -32,19 +32,6 @@ export class InventoryStore {
         );
     }
 
-    public loadInventories = async (date: Date, restaurantId: number): Promise<void> => {
-        try {
-            this.setLoading(true);
-            const inventories = await apiClient.getInventoryByDate(restaurantId, date);
-            this.setInventories(inventories);
-        } catch (error) {
-            console.error('Failed to load inventories', error);
-            throw error;
-        } finally {
-            this.setLoading(false);
-        }
-    };
-
     public createInventories = async (dto: CreateInventoryDto): Promise<Inventory[]> => {
         if (!restaurantStore.selectedRestaurant) {
             throw new Error('Unable to create inventory without selected restaurant');
@@ -60,6 +47,19 @@ export class InventoryStore {
 
     public setDate = (date: moment.Moment | null) => {
         this.selectedDate = date;
+    };
+
+    private loadInventories = async (date: Date, restaurantId: number): Promise<void> => {
+        try {
+            this.setLoading(true);
+            const inventories = await apiClient.getInventoryByDate(restaurantId, date);
+            this.setInventories(inventories);
+        } catch (error) {
+            console.error('Failed to load inventories', error);
+            throw error;
+        } finally {
+            this.setLoading(false);
+        }
     };
 
     private setLoading = (loading: boolean): void => {
