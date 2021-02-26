@@ -51,10 +51,11 @@ export class InventoryService {
         }
 
         const duplicates = await Promise.all(duplicateChecks);
-        if (duplicates.length) {
-            throw new BadRequestException(
-                `Duplicate inventory records found - total: ${duplicates.length}`
-            );
+        if (duplicates.some((d) => !!d)) {
+            throw new BadRequestException({
+                error: 'Attempted to create duplicates of already existing inventory records',
+                duplicates,
+            });
         }
 
         return await this._inventoryRepository.save(inventories);

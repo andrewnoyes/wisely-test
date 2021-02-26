@@ -14,7 +14,6 @@ export const CreateInventoryDto: coreHttp.CompositeMapper = {
       },
       endTime: {
         serializedName: "endTime",
-        required: true,
         type: {
           name: "DateTime"
         }

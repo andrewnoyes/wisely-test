@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateInventoryDto {
     @ApiProperty()
     public startTime: Date;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     public endTime?: Date;
 
     @ApiProperty()

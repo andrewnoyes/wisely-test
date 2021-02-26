@@ -2,7 +2,7 @@ import * as coreHttp from "@azure/core-http";
 
 export interface CreateInventoryDto {
   startTime: Date;
-  endTime: Date;
+  endTime?: Date;
   dates: string[];
   reservationLimit: number;
 }
