@@ -1,7 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import moment from 'moment';
+import { Snackbar } from '@material-ui/core';
 
+import { CreateInventoryDto } from 'sdk/dist';
 import { inventoryStore } from '../stores';
 import {
     InventoryForm,
@@ -14,8 +16,16 @@ import {
 
 export const Inventory: React.FC = observer(() => {
     const [formOpen, setFormOpen] = React.useState(false);
+    const [error, setError] = React.useState('');
 
-    const handleScheduleInventory = () => {};
+    const handleScheduleInventory = async (dto: CreateInventoryDto) => {
+        try {
+            await inventoryStore.createInventories(dto);
+            handleToggleOpen();
+        } catch (error) {
+            setError(error.message);
+        }
+    };
 
     const handleToggleOpen = () => {
         setFormOpen(!formOpen);
@@ -57,6 +67,16 @@ export const Inventory: React.FC = observer(() => {
             >
                 <InventoryForm onCreate={handleScheduleInventory} onCancel={handleToggleOpen} />
             </ResponsiveDrawer>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={!!error}
+                autoHideDuration={10000}
+                message={error}
+                onClose={() => setError('')}
+            />
         </>
     );
 });

@@ -13,11 +13,6 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(2),
         marginBottom: theme.spacing(2),
         borderBottom: `1px solid ${theme.palette.divider}`,
-        flexWrap: 'wrap',
-    },
-    row: {
-        display: 'flex',
-        alignItems: 'center',
     },
 }));
 

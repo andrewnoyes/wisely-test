@@ -25,7 +25,7 @@ export const CreateInventoryDto: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "DateTime"
             }
           }
         }
@@ -185,6 +185,13 @@ export const CreateReservationDto: coreHttp.CompositeMapper = {
       },
       partySize: {
         serializedName: "partySize",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      inventoryId: {
+        serializedName: "inventoryId",
         required: true,
         type: {
           name: "Number"

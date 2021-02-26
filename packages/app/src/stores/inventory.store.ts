@@ -1,7 +1,7 @@
 import { reaction, makeAutoObservable } from 'mobx';
 import moment from 'moment';
 
-import { Inventory } from 'sdk/dist';
+import { CreateInventoryDto, Inventory } from 'sdk/dist';
 import { apiClient } from './api-client';
 import { restaurantStore } from './restaurant.store';
 
@@ -42,6 +42,19 @@ export class InventoryStore {
             throw error;
         } finally {
             this.setLoading(false);
+        }
+    };
+
+    public createInventories = async (dto: CreateInventoryDto): Promise<Inventory[]> => {
+        if (!restaurantStore.selectedRestaurant) {
+            throw new Error('Unable to create inventory without selected restaurant');
+        }
+
+        try {
+            return await apiClient.createInventory(restaurantStore.selectedRestaurant.id, dto);
+        } catch (error) {
+            console.error('Failed to create inventories', error);
+            throw error;
         }
     };
 

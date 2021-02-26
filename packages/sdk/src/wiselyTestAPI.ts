@@ -7,7 +7,7 @@ import {
   CreateInventoryDto,
   WiselyTestAPICreateInventoryResponse,
   WiselyTestAPIGetInventoryByDateResponse,
-  WiselyTestAPIGetReservationsResponse,
+  WiselyTestAPIGetReservationsByDateResponse,
   CreateReservationDto,
   WiselyTestAPICreateReservationResponse,
   WiselyTestAPIGetRestaurantsResponse,
@@ -65,25 +65,25 @@ export class WiselyTestAPI extends WiselyTestAPIContext {
   }
 
   /**
-   * Get list of reservations
    * @param restaurantId
+   * @param dateParam
    * @param options The options parameters.
    */
-  getReservations(
+  getReservationsByDate(
     restaurantId: number,
+    dateParam: Date,
     options?: coreHttp.OperationOptions
-  ): Promise<WiselyTestAPIGetReservationsResponse> {
+  ): Promise<WiselyTestAPIGetReservationsByDateResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
-      { restaurantId, options: operationOptions },
-      getReservationsOperationSpec
-    ) as Promise<WiselyTestAPIGetReservationsResponse>;
+      { restaurantId, dateParam, options: operationOptions },
+      getReservationsByDateOperationSpec
+    ) as Promise<WiselyTestAPIGetReservationsByDateResponse>;
   }
 
   /**
-   * Create a reservation
    * @param restaurantId
    * @param body
    * @param options The options parameters.
@@ -195,7 +195,7 @@ const getInventoryByDateOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
-const getReservationsOperationSpec: coreHttp.OperationSpec = {
+const getReservationsByDateOperationSpec: coreHttp.OperationSpec = {
   path: "/api/restaurants/{restaurantId}/reservations",
   httpMethod: "GET",
   responses: {
@@ -208,6 +208,7 @@ const getReservationsOperationSpec: coreHttp.OperationSpec = {
       }
     }
   },
+  queryParameters: [Parameters.dateParam],
   urlParameters: [Parameters.$host, Parameters.restaurantId],
   headerParameters: [Parameters.accept1],
   serializer

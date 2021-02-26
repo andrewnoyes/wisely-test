@@ -1,7 +1,7 @@
-import { Controller, Get, HttpStatus, Param, Post, HttpCode, Body } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Post, HttpCode, Body, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { CreateReservationDto } from '../dtos';
+import { CreateReservationDto, DateQueryDto } from '../dtos';
 import { Reservation } from '../entities';
 import { ReservationService } from '../services';
 
@@ -11,20 +11,19 @@ export class ReservationController {
     public constructor(private readonly _reservationService: ReservationService) {}
 
     @ApiOperation({
-        operationId: 'getReservations',
-        summary: 'Get list of reservations',
+        operationId: 'getReservationsByDate',
     })
     @ApiResponse({ status: HttpStatus.OK, type: Reservation, isArray: true })
     @Get()
     public async getReservations(
-        @Param('restaurantId') restaurantId: number
+        @Param('restaurantId') restaurantId: number,
+        @Query() query: DateQueryDto
     ): Promise<Reservation[]> {
-        return await this._reservationService.findAll();
+        return await this._reservationService.findAllByDate(restaurantId, query.date);
     }
 
     @ApiOperation({
         operationId: 'createReservation',
-        summary: 'Create a reservation',
     })
     @ApiResponse({ status: HttpStatus.OK, type: Reservation })
     @Post()
@@ -33,8 +32,6 @@ export class ReservationController {
         @Param('restaurantId') restaurantId: number,
         @Body() reservationDto: CreateReservationDto
     ): Promise<Reservation> {
-        // TODO: impl
-        // TODO: decide if we want to return reservation+inventory entity or consolidate into DTO
-        return Promise.resolve(null);
+        return await this._reservationService.createReservation(reservationDto);
     }
 }

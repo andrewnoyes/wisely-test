@@ -62,7 +62,10 @@ export class InventoryService {
     }
 
     public async findAllByDate(restaurantId: number, date: Date): Promise<Inventory[]> {
-        return await this._inventoryRepository.find({ where: { restaurantId, date } });
+        return await this._inventoryRepository.find({
+            where: { restaurantId, date },
+            order: { time: 'ASC' },
+        });
     }
 
     private createTimeRanges(start: Date, end?: Date): Date[] {

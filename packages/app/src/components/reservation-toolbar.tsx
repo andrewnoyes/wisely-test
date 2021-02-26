@@ -11,15 +11,6 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
         borderBottom: `1px solid ${theme.palette.divider}`,
         justifyContent: 'space-between',
-        flexWrap: 'wrap',
-    },
-    row: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-    spacer: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
     },
 }));
 
@@ -36,19 +27,15 @@ export const ReservationToolbar: React.FC<IReservationToolbarProps> = (props) =>
 
     return (
         <div className={classes.root}>
-            <div className={classes.row}>
-                <Button variant="outlined">Today</Button>
-                <div className={classes.spacer} />
-                <DatePicker
-                    id="reservation_toolbar_datepicker"
-                    date={start}
-                    onDateChange={(d) => setStart(d)}
-                    focused={focused}
-                    onFocusChange={({ focused }) => setFocused(focused)}
-                    small={true}
-                    showDefaultInputIcon={true}
-                />
-            </div>
+            <DatePicker
+                id="reservation_toolbar_datepicker"
+                date={start}
+                onDateChange={(d) => setStart(d)}
+                focused={focused}
+                onFocusChange={({ focused }) => setFocused(focused)}
+                small={true}
+                showDefaultInputIcon={true}
+            />
             <Button variant="contained" color="primary" onClick={onCreate}>
                 Create Reservation
             </Button>

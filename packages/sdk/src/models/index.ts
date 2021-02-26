@@ -3,7 +3,7 @@ import * as coreHttp from "@azure/core-http";
 export interface CreateInventoryDto {
   startTime: Date;
   endTime?: Date;
-  dates: string[];
+  dates: Date[];
   reservationLimit: number;
 }
 
@@ -32,6 +32,7 @@ export interface CreateReservationDto {
   name: string;
   email: string;
   partySize: number;
+  inventoryId: number;
 }
 
 export interface Restaurant {
@@ -86,9 +87,9 @@ export type WiselyTestAPIGetInventoryByDateResponse = Inventory[] & {
 };
 
 /**
- * Contains response data for the getReservations operation.
+ * Contains response data for the getReservationsByDate operation.
  */
-export type WiselyTestAPIGetReservationsResponse = Reservation[] & {
+export type WiselyTestAPIGetReservationsByDateResponse = Reservation[] & {
   /**
    * The underlying HTTP response.
    */

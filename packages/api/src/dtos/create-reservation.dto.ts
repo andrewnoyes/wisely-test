@@ -9,4 +9,7 @@ export class CreateReservationDto {
 
     @ApiProperty()
     public partySize: number;
+
+    @ApiProperty()
+    public inventoryId: number;
 }

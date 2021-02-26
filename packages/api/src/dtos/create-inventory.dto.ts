@@ -7,7 +7,7 @@ export class CreateInventoryDto {
     @ApiPropertyOptional()
     public endTime?: Date;
 
-    @ApiProperty()
+    @ApiProperty({ type: Date, isArray: true })
     public dates: Date[];
 
     @ApiProperty()

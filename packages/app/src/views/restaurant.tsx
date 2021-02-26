@@ -42,14 +42,14 @@ export const Restaurant: React.FC = observer(() => {
                 <NavLink to="/" exact={true} title="Home">
                     <HomeIcon />
                 </NavLink>
-                <NavLink to={`${url}/reservations`}>Reservations</NavLink>
                 <NavLink to={`${url}/inventory`}>Inventory</NavLink>
+                <NavLink to={`${url}/reservations`}>Reservations</NavLink>
             </AppBar>
             <Content maxWidth="md">
                 <Switch>
-                    <Redirect from={path} to={`${path}/reservations`} exact={true} />
-                    <Route path={`${path}/reservations`} exact={true} component={Reservations} />
+                    <Redirect from={path} to={`${path}/inventory`} exact={true} />
                     <Route path={`${path}/inventory`} exact={true} component={Inventory} />
+                    <Route path={`${path}/reservations`} exact={true} component={Reservations} />
                 </Switch>
             </Content>
         </>
