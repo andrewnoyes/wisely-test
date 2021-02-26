@@ -7,12 +7,10 @@ import {
     TableRow,
     TableBody,
     TableCell,
-    Typography,
 } from '@material-ui/core';
 import { observer } from 'mobx-react';
 
 import { Inventory } from 'sdk/dist';
-import { Placeholder } from './placeholder';
 
 export interface IInventoryTableProps {
     inventories: Inventory[];
@@ -20,10 +18,6 @@ export interface IInventoryTableProps {
 
 export const InventoryTable: React.FC<IInventoryTableProps> = observer((props) => {
     const { inventories } = props;
-
-    if (!inventories.length) {
-        return <Placeholder text="No scheduled inventory." />;
-    }
 
     return (
         <TableContainer component={Paper}>

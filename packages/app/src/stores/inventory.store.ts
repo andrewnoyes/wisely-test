@@ -23,6 +23,11 @@ export class InventoryStore {
                 } else {
                     this.clearInventories();
                 }
+
+                // clear selected date when restaurant is cleared
+                if (date && !restaurant) {
+                    this.setDate(null);
+                }
             }
         );
     }

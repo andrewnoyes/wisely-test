@@ -16,7 +16,7 @@ export interface IRestaurantListProps {
     restaurants: Restaurant[];
 }
 
-export const RestaurantList: React.FC<IRestaurantListProps> = (props) => {
+export const RestaurantList: React.FC<IRestaurantListProps> = observer((props) => {
     const classes = useStyles();
     const { restaurants } = props;
 
@@ -37,4 +37,4 @@ export const RestaurantList: React.FC<IRestaurantListProps> = (props) => {
             </List>
         </Paper>
     );
-};
+});

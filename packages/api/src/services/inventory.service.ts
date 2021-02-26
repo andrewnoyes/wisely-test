@@ -25,10 +25,10 @@ export class InventoryService {
             throw new NotFoundException(`No restaurant found for ID ${restaurantId}`);
         }
 
-        // TODO: - check for duplicates based on time, date, and restaurantId
-
-        const times = this.createTimeRanges(dto.startTime, dto.endTime);
+        const duplicateChecks: Promise<Inventory>[] = [];
         const inventories: Inventory[] = [];
+        const times = this.createTimeRanges(dto.startTime, dto.endTime);
+
         for (const date of dto.dates) {
             for (const time of times) {
                 const inventory = new Inventory();
@@ -37,7 +37,24 @@ export class InventoryService {
                 inventory.date = date;
                 inventory.restaurantId = restaurantId;
                 inventories.push(inventory);
+
+                duplicateChecks.push(
+                    this._inventoryRepository.findOne({
+                        where: {
+                            restaurantId,
+                            date,
+                            time,
+                        },
+                    })
+                );
             }
+        }
+
+        const duplicates = await Promise.all(duplicateChecks);
+        if (duplicates.length) {
+            throw new BadRequestException(
+                `Duplicate inventory records found - total: ${duplicates.length}`
+            );
         }
 
         return await this._inventoryRepository.save(inventories);

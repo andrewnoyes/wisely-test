@@ -34,6 +34,10 @@ export const Inventory: React.FC = observer(() => {
             return <Placeholder text="Select a date to view inventory." />;
         }
 
+        if (!inventoryStore.inventories.length) {
+            return <Placeholder text="No inventory scheduled." />;
+        }
+
         return <InventoryTable inventories={inventoryStore.inventories} />;
     };
 
